@@ -53,7 +53,9 @@ const el = (h) => {
 };
 const fmtT = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
-export function createConsole(app, {badge = 'teardown · HX-6'} = {}) {
+export const HANDLE = 'BKBKkwu3';
+
+export function createConsole(app, {badge = `@${HANDLE}`} = {}) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -149,7 +151,9 @@ export function createConsole(app, {badge = 'teardown · HX-6'} = {}) {
   const logTrack = add(`<svg style="position:absolute;left:${OL.x + 250}px;top:${OL.y + 40}px" width="${OL.w - 272}" height="26"></svg>`);
   add(`<div class="lb" style="position:absolute;right:${1600 - OL.x - OL.w + 22}px;top:${OL.y + 74}px;font-size:9.5px" data-k="logfoot"></div>`);
   const badgeEl = add(`<div style="position:absolute;left:1288px;top:799px;width:287px;height:50px;border-radius:25px;background:#f4f5f2;color:#0c0e10;display:flex;align-items:center;justify-content:center;gap:10px;font:600 17px 'JetBrains Mono',monospace;letter-spacing:.5px"></div>`);
-  badgeEl.textContent = badge;
+  // the X mark, then the handle
+  badgeEl.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#0c0e10" d="M18.9 1.2h3.7l-8 9.2L24 22.8h-7.4l-5.8-7.6-6.6 7.6H.5L9 13 0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.4h2L6.5 3.3H4.3l13.3 17.3z"/></svg><span></span>`;
+  badgeEl.querySelector('span').textContent = badge;
   add(`<div class="lb" style="position:absolute;left:198px;top:874px;font-size:11px;letter-spacing:3px">HX-6 FIELD ROBOTICS · 1 EVENT LIST · 0 KEYFRAMES · <span data-k="pc" style="color:${C.ink}"></span> PARTS <span style="color:${C.lime};letter-spacing:1px">//////</span></div>`);
 
   // ------------------------------------------------------------ caption and callouts

@@ -243,7 +243,7 @@ export function makeFilm() {
     const st = createMantisStage({canvas});
     const resize = () => st.resize(1600, 900, capture ? devicePixelRatio || 1 : Math.min(devicePixelRatio || 1, 2));
     resize();
-    const ui = createConsole(document.getElementById('app'), {badge: cfg.badge});
+    const ui = createConsole(document.getElementById('app'), cfg.badge ? {badge: cfg.badge} : {});
     const I = makeIntegrals(EV, -2, DURATION + 1);
     window.MANTIS = st;
     return {

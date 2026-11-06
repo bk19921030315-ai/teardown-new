@@ -66,7 +66,7 @@ export function runLive() {
   app.appendChild(canvas);
 
   const st = createMantisStage({canvas});
-  const ui = createConsole(app, {badge: 'teardown · HX-6'});
+  const ui = createConsole(app);
   const tourI = makeIntegrals(FILM_EV, -2, DURATION + 1);
 
   // ------------------------------------------------------------ quality tiers
