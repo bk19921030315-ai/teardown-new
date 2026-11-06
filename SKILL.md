@@ -17,6 +17,18 @@ cd "$SKILL_DIR" && npm install && npx playwright install chromium
 
 The pages need nothing else. The video needs `ffmpeg` on PATH and the score needs Python 3 (standard library only). Set `FFMPEG`, `PYTHON` or `CHROMIUM` to point at other binaries.
 
+## House style: the default for every new machine
+
+Unless the request names another look, build on the HX-6 console. Copy `sims/mantis-*` as the starting point and change the machine, not the chrome.
+
+- **Look.** Dark studio `#0c0e10`, one lime accent `#c6f135`, ring floor under the machine, soft key, cool rim, gentle bloom (`mantis-shared/stage.js`).
+- **Console** (`mantis-shared/console.js`, 1600 x 900). A lime title block top left with a glyph and the machine code; the title as "Name CODE /" with a kicker line above and a one-line spec below. Three numbered panels down each side (01-06): the machine's key action, BUILD (the live part count), a torque or load table, a tracking or state readout, DISPLAY chips (LABELS, EXPLODED, a trail, TURNTABLE), SUBSYSTEMS with status chips. An operation log along the bottom, the state's caption under the machine, leader-line callouts, the footer line.
+- **Badge.** The white pill bottom right reads the X handle in `HANDLE` (`console.js`): `@BKBKkwu3`.
+- **Part count.** Every rigid moving part goes through a registry (`reg()` in `mantis-shared/mantis.js`); BUILD reads its length. When the request names a count, hit it exactly by tuning repeated parts (segments, spines, ribs, blades), and say how it splits by subsystem.
+- **Film.** 10-13 beats about 2 s apart, 25-30 s in all, one caption per beat: a state name and one line of real numbers. Open on the machine already working (frame 0 is the thumbnail, with caption and callouts), show the hero action (slowed down if it is fast), open the internals, an EXPLODED beat and a REASSEMBLY that counts the parts back, and end on the machine leaving or idling.
+- **Live page.** The film as an auto tour; a click on a subsystem or chip hands over, buttons push events onto the same state function the film uses, 25 s of quiet hands back.
+- **Deliver.** `sims/<name>-shared|film|live`, the film at `--size 1600x900 --dpr 1.2` (1920 x 1080, 60 fps) muxed with its score, and the live page from `build.mjs`.
+
 ## The 4 examples
 
 Build one, open the HTML, press buttons. Copy the closest one when you start a new machine.
@@ -57,7 +69,7 @@ For a machine outside `SKILL_DIR`, make a folder with a `main.js` and import the
 2. **Real numbers, one source.** Get the real dimensions first (bore, stroke, tooth count, link lengths). Every gauge, chart and label reads from the same function that poses the parts, so nothing on screen can disagree with the motion. Check one by hand: in the Cessna, 32 teeth × 4 mm module is a 128 mm pitch diameter, and half its circumference is the 201 mm stroke.
 3. **One input drives everything.** Pose from the crank angle, the stroke or the wind. Nothing is keyframed by hand, so the film, the live page and the score never drift.
 4. **The part doing the work opens up.** Isolate it, cut it, x-ray it. A camera that goes inside is worth more than ten orbits.
-5. **Light studio, one accent.** Pale backgrounds read in a feed; dark ones lose the first second. The accent marks the thing that is changing. Watch near-white parts on a pale backdrop: give them an ink outline or a darker ground.
+5. **One accent.** The house style is the dark console; a light studio only when the request asks for one (then watch near-white parts on the pale backdrop: give them an ink outline or a darker ground). The accent marks the thing that is changing. On the dark console near-white armour blows out under the key: keep it at or below `#c0c4be` with roughness ≥ 0.5.
 6. **Pick the camera for the mechanism.** A planar linkage seen face-on collapses into a lattice; a 3/4 view along the spine keeps every leg readable.
 7. **Fix collisions with a number.** When a part pokes through another, scale or move it in the parameter block. Never hide it with the camera.
 
@@ -96,6 +108,8 @@ python "$SKILL_DIR/run_sfx.py" "$SKILL_DIR/sims/v8-shared/score.py"
 ffmpeg -y -i teardown-out/v8-silent.mp4 -i teardown-out/v8-score.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest -movflags +faststart teardown-out/v8.mp4
 node "$SKILL_DIR/wave.mjs" teardown-out/v8.mp4 --timeline "$SKILL_DIR/sims/v8-film/timeline.json"
 ```
+
+On a software GPU (a cloud container) a 1080p frame takes over a second: render halves in parallel with `--from` / `--to` and join them with `ffmpeg -f concat -c copy`.
 
 `--size` is the CSS layout and `--dpr` multiplies it: 1600 x 900 at 1.2 gives 1920 x 1080. Capture prints the GPU it got; a software renderer means the GPU flags in `paths.mjs` did not take.
 
